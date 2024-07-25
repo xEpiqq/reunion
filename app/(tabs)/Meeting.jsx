@@ -19,7 +19,7 @@ const getWeekRange = (today) => {
 const RecurringHabits = ({ habits, removeHabit }) => (
   <View>
     {habits.map((habit, index) => (
-      <View key={index} className="bg-blue-200 p-4 mb-4 rounded-lg flex-row justify-between items-center">
+      <View key={index} className="bg-blue-200 p-4 mb-2 rounded-lg flex-row justify-between items-center">
         <Text className="text-lg font-bold">{habit}</Text>
         <TouchableOpacity onPress={() => removeHabit(habit)}>
           <Ionicons name="remove-circle" size={24} color="red" />
@@ -41,17 +41,17 @@ const DayPlan = ({ day, tasks, addTask, removeTask }) => {
   };
 
   return (
-    <View>
+    <View className="mb-2">
       <TouchableOpacity
         onPress={() => setExpanded(!expanded)}
-        className="bg-yellow-200 p-4 mb-2 rounded-lg"
+        className="bg-yellow-200 px-4 py-2 mb-1 rounded-lg"
       >
         <Text className="text-lg font-bold">{day}</Text>
       </TouchableOpacity>
       {expanded && (
-        <View className="ml-4 mb-4">
+        <View className="ml-4 mb-2">
           {tasks.map((task, index) => (
-            <View key={index} className="bg-gray-200 p-2 mb-2 rounded-lg flex-row justify-between items-center">
+            <View key={index} className="bg-gray-200 p-2 mb-1 rounded-lg flex-row justify-between items-center">
               <Text>{task.name}</Text>
               <TouchableOpacity onPress={() => removeTask(day, task.name)}>
                 <Ionicons name="remove-circle" size={24} color="red" />
@@ -108,48 +108,61 @@ const Meeting = () => {
   };
 
   return (
-    <ScrollView className="flex-1 bg-white p-4">
-      <Text className="text-2xl font-bold mb-4">
-        Current Week: {start} - {end}
-      </Text>
-      <RecurringHabits habits={recurringHabits} removeHabit={removeHabit} />
-      <TouchableOpacity onPress={() => setModalVisible(true)} className="mt-4 bg-green-500 p-4 rounded-lg">
-        <Text className="text-white text-center text-lg font-bold">+ Recurring Habit</Text>
-      </TouchableOpacity>
+<ScrollView className="flex-1 bg-white p-4">
+  <Text className="text-2xl font-bold mb-4">
+    Current Week: {start} - {end}
+  </Text>
+  <RecurringHabits habits={recurringHabits} removeHabit={removeHabit} />
+  <View className="flex-row items-center mt-4 flex justify-center mb-10">
+    <TextInput
+      value={newHabit}
+      onChangeText={setNewHabit}
+      placeholder="Enter recurring habit"
+      className="flex-1 border-b border-gray-300 p-2 mr-2"
+    />
+    <TouchableOpacity className="bg-black p-2 rounded-lg flex items-center justify-center" onPress={addRecurringHabit}>
+      <Text className="text-white text-center text-md font-bold flex">Add</Text>
+    </TouchableOpacity>
+  </View>
 
-      {weekDays.map((day, index) => (
-        <DayPlan
-          key={index}
-          day={day}
-          tasks={dailyTasks[day]}
-          addTask={addTask}
-          removeTask={removeTask}
+  {weekDays.map((day, index) => (
+    <DayPlan
+      key={index}
+      day={day}
+      tasks={dailyTasks[day]}
+      addTask={addTask}
+      removeTask={removeTask}
+    />
+  ))}
+
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={() => setModalVisible(false)}
+  >
+    <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
+      <View className="bg-white p-6 rounded-lg w-3/4">
+        <Text className="text-lg font-bold mb-4">Add Recurring Habit</Text>
+        <TextInput
+          value={newHabit}
+          onChangeText={setNewHabit}
+          placeholder="Enter habit"
+          className="border-b border-gray-300 mb-4 p-2"
         />
-      ))}
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
-          <View className="bg-white p-6 rounded-lg w-3/4">
-            <Text className="text-lg font-bold mb-4">Add Recurring Habit</Text>
-            <TextInput
-              value={newHabit}
-              onChangeText={setNewHabit}
-              placeholder="Enter habit"
-              className="border-b border-gray-300 mb-4 p-2"
-            />
-            <View className="flex-row justify-between">
-              <Button title="Cancel" color="#FF6347" onPress={() => setModalVisible(false)} />
-              <Button title="Add" color="#4CAF50" onPress={addRecurringHabit} />
-            </View>
-          </View>
+        <View className="flex-row justify-between">
+          <TouchableOpacity className="bg-gray-500 p-2 rounded-md flex-1 mr-1" onPress={() => setModalVisible(false)}>
+            <Text className="text-white text-center text-lg">Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="bg-green-500 p-2 rounded-md flex-1 ml-1" onPress={addRecurringHabit}>
+            <Text className="text-white text-center text-lg">Add</Text>
+          </TouchableOpacity>
         </View>
-      </Modal>
-    </ScrollView>
+      </View>
+    </View>
+  </Modal>
+</ScrollView>
+
   );
 };
 

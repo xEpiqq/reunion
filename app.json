@@ -1,36 +1,49 @@
 {
   "expo": {
-    "name": "reunion",
-    "slug": "reunion",
+    "name": "loaf",
+    "slug": "loaf",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./public/beep.png",
+    "icon": "./public/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./public/beep.png",
+      "image": "./public/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.xepiq.loaf"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./public/beep.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.xepiq.loaf"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./public/beep.png"
+      "favicon": "./public/icon.png"
     },
     "plugins": [
       "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "custom": {
+      "sku": "XEP-LOAF-001"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "9cbe7061-c11d-4935-8329-72e42d28d96b"
+      }
     }
   }
 }
